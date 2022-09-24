@@ -44,8 +44,8 @@ export default function PlayerPicker() {
     else {
       // check how many players are already selected
       let selectedPlayers = 0;
-      for (const player in players) {
-        if (players[player] === true) {
+      for (const [player, isSelected] of Object.entries(players)) {
+        if (isSelected) {
           selectedPlayers++;
         }
       }
@@ -79,7 +79,7 @@ export default function PlayerPicker() {
         <div>{playersElements}</div>
         <EditableButton saveInput={addPlayer}></EditableButton>
       </div>
-      <button>Vylosovat</button>
+
       <PlayersShuffled players={players}></PlayersShuffled>
     </main>
   );
