@@ -47,7 +47,21 @@ export default function PlayersShuffled(props: IProps) {
     return array;
   }
 
+  const clipboardText: string[] = [];
+
+  function copyToClipboard() {
+    navigator.clipboard.writeText(clipboardText.join("\n")).then(
+      () => {
+        console.log("Copied to clipboard");
+      },
+      (error) => {
+        console.log("Clipboard error: ", error);
+      }
+    );
+  }
+
   const shuffledPlayersElements = shuffledPlayers.map((playerName, index) => {
+    clipboardText.push(`${playerName}......${roles[index]}`);
     return (
       <div className="player" key={index}>
         {playerName}......{roles[index]}
@@ -55,11 +69,21 @@ export default function PlayersShuffled(props: IProps) {
     );
   });
 
+  // prevents erasing clipboard on page load
+  if (shuffledPlayersElements.length > 0) {
+    copyToClipboard(); // copy text to clipboard after shuffle
+  }
+
   return (
     <div className="playersShuffled">
-      <button onClick={shufflePlayers}>Vylosovat</button>
-      <h2>Vylosovaní:</h2>
+      <button className="shuffle" onClick={shufflePlayers}>
+        Vylosovat
+      </button>
+      <h2>Přidělené role</h2>
       <ul>{shuffledPlayersElements}</ul>
+      <button className="copy" onClick={copyToClipboard}>
+        Zkopírovat
+      </button>
     </div>
   );
 }
