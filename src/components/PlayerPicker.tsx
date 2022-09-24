@@ -12,13 +12,20 @@ export default function PlayerPicker() {
     if (playerName in players) return; // abort if name is duplicate
 
     const playersCopy = structuredClone(players);
-    playersCopy[playerName] = false; // player is turned off by default
+
+    playersCopy[playerName] = false; // unselect new player by default
     setPlayers(playersCopy);
 
     console.log("Added player: ", playerName);
   }
 
-  function removePlayer(playerName: string) {
+  function removePlayer(playerName: keyof IPlayers) {
+    const playersCopy = structuredClone(players);
+
+    delete playersCopy[playerName];
+
+    setPlayers(playersCopy);
+
     console.log("Removed player: ", playerName);
   }
 
