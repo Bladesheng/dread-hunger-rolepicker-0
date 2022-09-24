@@ -119,6 +119,9 @@ export default function PlayerPicker() {
 
   return (
     <main className="playerPicker">
+      <div
+        className={"counter " + (selectedPlayers.length > 8 ? "overflow" : "")}
+      >{`${selectedPlayers.length}/8 hráčů`}</div>
       <ul className="selectedPlayers">{selectedPlayersElements}</ul>
       <ul className="unselectedPlayers">{unselectedPlayersElements}</ul>
 
