@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditableButton from "./EditableButton";
 import PlayersShuffled from "./PlayersShuffled";
 import Player from "./Player";
+import { Storage } from "./Storage";
+
+Storage.init();
 
 export default function PlayerPicker() {
-  const [selectedPlayers, setSelectedPlayers] = useState<string[]>([]);
-  const [unselectedPlayers, setUnselectedPlayers] = useState<string[]>([]);
+  const [selectedPlayers, setSelectedPlayers] = useState<string[]>(Storage.selectedPlayers);
+  const [unselectedPlayers, setUnselectedPlayers] = useState<string[]>(Storage.unselectedPlayers);
+
+  // update local storage when either state changes
+  useEffect(() => {
+    Storage.selectedPlayers = selectedPlayers;
+  }, [selectedPlayers]);
+
+  useEffect(() => {
+    Storage.unselectedPlayers = unselectedPlayers;
+  }, [unselectedPlayers]);
 
   function addPlayer(playerName: string) {
     // abort if name is a duplicate
