@@ -3,84 +3,114 @@ import EditableButton from "./EditableButton";
 import PlayersShuffled from "./PlayersShuffled";
 import Player from "./Player";
 
-export type IPlayers = {
-  [playerName: string]: boolean; // false == not selected, true == selected
-};
-
 export default function PlayerPicker() {
-  const [players, setPlayers] = useState<IPlayers>({});
+  const [selectedPlayers, setSelectedPlayers] = useState<string[]>([]);
+  const [unselectedPlayers, setUnselectedPlayers] = useState<string[]>([]);
 
   function addPlayer(playerName: string) {
-    if (playerName in players) return; // abort if name is duplicate
+    // abort if name is a duplicate
+    if (selectedPlayers.includes(playerName) || unselectedPlayers.includes(playerName)) return;
 
-    const playersCopy = structuredClone(players);
+    const unselectedPlayersCopy = [...unselectedPlayers];
 
-    playersCopy[playerName] = false; // unselect new players by default
-    setPlayers(playersCopy);
+    // add new players to unselect by default
+    // add them to the end, so they "replace" the editable button
+    unselectedPlayersCopy.push(playerName);
+
+    setUnselectedPlayers(unselectedPlayersCopy);
 
     console.log("Added player: ", playerName);
   }
 
-  function removePlayer(playerName: keyof IPlayers) {
-    const playersCopy = structuredClone(players);
+  function removePlayer(playerName: string) {
+    if (unselectedPlayers.includes(playerName)) {
+      const unselectedPlayersFiltered = unselectedPlayers.filter((player) => {
+        return player !== playerName;
+      });
 
-    delete playersCopy[playerName];
+      setUnselectedPlayers(unselectedPlayersFiltered);
+    } else {
+      const selectedPlayersFiltered = selectedPlayers.filter((player) => {
+        return player !== playerName;
+      });
 
-    setPlayers(playersCopy);
+      setSelectedPlayers(selectedPlayersFiltered);
+    }
 
     console.log("Removed player: ", playerName);
   }
 
-  function togglePlayer(playerName: keyof IPlayers) {
+  function togglePlayer(playerName: string) {
     // if player is selected already, deselect him
-    if (players[playerName] === true) {
-      const playersCopy = structuredClone(players);
-      playersCopy[playerName] = false;
-      setPlayers(playersCopy);
+    if (selectedPlayers.includes(playerName)) {
+      // remove player from selected
+      const selectedPlayersFiltered = selectedPlayers.filter((player) => {
+        return player !== playerName;
+      });
+      setSelectedPlayers(selectedPlayersFiltered);
+
+      // and add him to unselected
+      const unselectedPlayersCopy = [...unselectedPlayers];
+      unselectedPlayersCopy.unshift(playerName); // add player to begining, so frequent players are at the top!
+      setUnselectedPlayers(unselectedPlayersCopy);
 
       console.log("Deselected player: ", playerName);
     }
     // if player is not selected yet, select him
     else {
-      // check how many players are already selected
-      let selectedPlayers = 0;
-      for (const [player, isSelected] of Object.entries(players)) {
-        if (isSelected) {
-          selectedPlayers++;
-        }
-      }
-      if (selectedPlayers === 8) return; // abort if 8 players are already selected (8 is maximum)
+      // remove player from unselected
+      const unselectedPlayersFiltered = unselectedPlayers.filter((player) => {
+        return player !== playerName;
+      });
+      setUnselectedPlayers(unselectedPlayersFiltered);
 
-      const playersCopy = structuredClone(players);
-      playersCopy[playerName] = true;
-      setPlayers(playersCopy);
+      // and add him to selected
+      const selectedPlayersCopy = [...selectedPlayers];
+      selectedPlayersCopy.push(playerName); // add player to end, so frequent players are at the top!
+      setSelectedPlayers(selectedPlayersCopy);
 
       console.log("Selected player: ", playerName);
     }
   }
 
-  // create Player element for each entry in "players" state
-  const playersElements = [] as JSX.Element[];
-  for (const [playerName, selected] of Object.entries(players)) {
-    playersElements.push(
+  // create clickable Player elements for all players
+  const selectedPlayersElements = [] as JSX.Element[];
+  const unselectedPlayersElements = [] as JSX.Element[];
+
+  for (const playerName of selectedPlayers) {
+    selectedPlayersElements.push(
       <Player
         key={playerName}
         playerName={playerName}
-        selected={selected}
+        selected={true}
         removePlayer={removePlayer}
         togglePlayer={togglePlayer}
       ></Player>
     );
   }
 
+  for (const playerName of unselectedPlayers) {
+    unselectedPlayersElements.push(
+      <Player
+        key={playerName}
+        playerName={playerName}
+        selected={false}
+        removePlayer={removePlayer}
+        togglePlayer={togglePlayer}
+      ></Player>
+    );
+  }
+  // insert editable button at the end, so it gets "replaced" by new players
+  unselectedPlayersElements.push(
+    <EditableButton saveInput={addPlayer} key={"editableButton"}></EditableButton>
+  );
+
   return (
     <main className="playerPicker">
-      <div className="playersList">
-        <div>{playersElements}</div>
-        <EditableButton saveInput={addPlayer}></EditableButton>
-      </div>
+      <ul className="selectedPlayers">{selectedPlayersElements}</ul>
+      <ul className="unselectedPlayers">{unselectedPlayersElements}</ul>
 
-      <PlayersShuffled players={players}></PlayersShuffled>
+      <PlayersShuffled selectedPlayers={selectedPlayers}></PlayersShuffled>
     </main>
   );
 }

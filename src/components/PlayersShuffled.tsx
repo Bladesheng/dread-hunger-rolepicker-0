@@ -1,22 +1,14 @@
 import React, { useState } from "react";
-import { IPlayers } from "./PlayerPicker";
 
 type IProps = {
-  players: IPlayers;
+  selectedPlayers: string[];
 };
 
 export default function PlayersShuffled(props: IProps) {
   const [shuffledPlayers, setShuffledPlayers] = useState<string[]>([]);
 
-  const selectedPlayers: string[] = [];
-  for (const [playerName, isSelected] of Object.entries(props.players)) {
-    if (isSelected) {
-      selectedPlayers.push(playerName);
-    }
-  }
-
   function shufflePlayers() {
-    const selectedPlayersCopy = [...selectedPlayers];
+    const selectedPlayersCopy = [...props.selectedPlayers];
 
     shuffleArray(selectedPlayersCopy);
 
