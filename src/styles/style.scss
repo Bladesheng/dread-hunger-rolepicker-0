@@ -50,6 +50,10 @@ button {
 
 main {
   flex: 1 1 auto;
+
+  .selected {
+    background-color: greenyellow;
+  }
 }
 
 footer {
