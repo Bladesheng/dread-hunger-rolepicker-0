@@ -7,6 +7,17 @@ type IProps = {
 export default function PlayersShuffled(props: IProps) {
   const [shuffledPlayers, setShuffledPlayers] = useState<string[]>([]);
 
+  const roles = [
+    "Captain ⚓",
+    "Chaplain ✝",
+    "Cook 🥩",
+    "Doctor 💉",
+    "Engineer 🔧",
+    "Hunter 🏹",
+    "Royal Marine 🔫",
+    "Navigator 🔭"
+  ];
+
   function shufflePlayers() {
     const selectedPlayersCopy = [...props.selectedPlayers];
 
@@ -39,7 +50,7 @@ export default function PlayersShuffled(props: IProps) {
   const shuffledPlayersElements = shuffledPlayers.map((playerName, index) => {
     return (
       <div className="player" key={index}>
-        {playerName}
+        {playerName}......{roles[index]}
       </div>
     );
   });
