@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+$font-stack: "Roboto", sans-serif;
+$font-color-primary: rgb(139, 148, 158);
+$font-color-secondary: rgb(240, 246, 252);
+$font-color-blue: rgb(88, 166, 255);
+$font-color-red: rgb(248, 81, 73);
+
+$color-primary: rgb(13, 17, 23);
+$color-secondary: rgb(22, 27, 34);
+$color-grey-dark: rgb(33, 38, 45);
+$color-grey-light: rgb(55, 59, 66);
+$color-green-dark: rgb(35, 134, 54);
+$color-green-light: rgb(56, 145, 75);
+$color-black: rgb(1, 4, 9);
+$color-red: rgb(218, 54, 51);
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root,
+.app {
+  width: 100vw;
+  max-width: 100vw;
+
+  overflow-x: hidden;
+
+  font-family: $font-stack;
+  color: $font-color-primary;
+  background-color: $color-primary;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+
+  padding: 4vw;
+  padding-bottom: 0;
+}
+
+button {
+  cursor: pointer;
+  font-family: $font-stack;
+}
+
+main {
+  flex: 1 1 auto;
+}
+
+footer {
+  flex: 0 1 auto;
+
+  text-align: center;
+  padding: 0.6rem;
+  font-size: 0.6rem;
+
+  a {
+    text-decoration: none;
+    color: $font-color-blue;
+  }
+}
