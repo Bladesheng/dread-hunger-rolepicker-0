@@ -32,7 +32,7 @@ export default function EditableButton(props: IProps) {
 
         if (key === "Escape") {
           endEdit(); // force cancel by omitting inputValue
-        } else if (key === "Enter") {
+        } else if (key === "Enter" || key === "NumpadEnter") {
           endEdit(inputValue);
         }
       }}
