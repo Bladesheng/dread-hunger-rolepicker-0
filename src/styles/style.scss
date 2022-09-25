@@ -193,25 +193,25 @@ main {
         border: 2px solid $color-green-dark;
       }
     }
-  }
 
-  button.reset {
-    @extend %button-standard;
-    border: 2px solid $color-grey-light;
-    color: $font-color-red;
-  }
-  button.reset:hover {
-    border: 2px solid $font-color-red;
-    color: $font-color-secondary;
-    background-color: $color-red;
+    button.reset {
+      @extend %button-standard;
+      border: 2px solid $color-grey-light;
+      color: $font-color-red;
+    }
+    button.reset:hover {
+      border: 2px solid $font-color-red;
+      color: $font-color-secondary;
+      background-color: $color-red;
+    }
   }
 }
 
 .shuffler {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 2rem 20rem 2rem;
-  grid-auto-rows: 2rem;
+  grid-template-rows: min-content 20rem min-content 1.5rem;
+
   justify-items: center;
   place-items: center;
 
@@ -246,6 +246,7 @@ main {
 
   .popup {
     grid-column: 2 / 3;
+    margin-top: 1rem;
   }
 }
 
@@ -259,5 +260,25 @@ footer {
   a {
     text-decoration: none;
     color: $font-color-blue;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  main {
+    grid-template-columns: 1fr;
+    overflow-y: visible;
+  }
+
+  .shuffler {
+    grid-template-rows: min-content auto min-content 1.5rem;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+    ol {
+      li {
+        font-size: 1.1rem;
+      }
+    }
   }
 }
