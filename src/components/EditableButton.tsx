@@ -24,6 +24,7 @@ export default function EditableButton(props: IProps) {
       type="text"
       className="editableInput"
       ref={refInput}
+      size={10}
       onBlur={() => {
         // save inputted value on focus loss
         const inputValue = refInput.current.value;
