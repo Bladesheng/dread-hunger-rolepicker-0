@@ -48,6 +48,14 @@ body,
 button {
   cursor: pointer;
   font-family: $font-stack;
+  border: none;
+  outline: none;
+}
+
+input {
+  font-family: $font-stack;
+  border: none;
+  outline: none;
 }
 
 ol {
@@ -83,14 +91,73 @@ main {
       h1 {
       }
 
+      // player buttons
+      li.player {
+        display: grid;
+        grid-template-columns: min-content 1rem;
+        grid-template-rows: 1fr;
+
+        button.toggle {
+          grid-column: 1 / 3;
+          grid-row: 1 / 2;
+          padding: 0.5em 1.6em 0.5em 0.8em;
+
+          width: fit-content;
+
+          white-space: nowrap; // no text wrapping, instead wrap the whole button to new line
+
+          font-size: 1rem;
+
+          border-radius: 1rem;
+        }
+        button.toggle:hover {
+          filter: brightness(1.2);
+        }
+
+        button.remove {
+          grid-column: 2 / 3;
+          grid-row: 1 / 2;
+          z-index: 1;
+
+          background: none;
+          color: black;
+        }
+        button.remove:hover {
+          color: (rgb(139, 139, 139));
+        }
+      }
+
+      button.editableButton,
+      input.editableInput {
+        font-size: 1rem;
+
+        border-radius: 1rem;
+        padding: 0.5em 0.8em;
+      }
+
+      .inputs {
+        position: relative;
+        button.plus {
+          position: absolute;
+          right: -2rem;
+          bottom: 0;
+
+          font-size: 2rem;
+
+          background: none;
+          color: white;
+        }
+      }
+
       ol.selectedPlayers {
         display: grid;
         grid-template-rows: 2rem 2rem;
         grid-auto-rows: 2rem;
         grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 1rem;
+        align-items: center;
+        place-items: center;
 
-        li {
-        }
         .selected {
           background-color: greenyellow;
         }
@@ -100,6 +167,7 @@ main {
     ol.unselectedPlayers {
       display: flex;
       flex-wrap: wrap;
+      gap: 1rem;
     }
   }
 

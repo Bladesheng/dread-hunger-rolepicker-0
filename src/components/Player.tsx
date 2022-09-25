@@ -10,9 +10,9 @@ type IProps = {
 // clickable player button, you can toggle selected/unselected status or delete the player completely
 export default function Player(props: IProps) {
   return (
-    <li className={"player " + (props.selected ? "selected" : "")}>
+    <li className={"player"}>
       <button
-        className="toggle"
+        className={"toggle" + (props.selected ? " selected" : "")}
         onClick={() => {
           props.togglePlayer(props.playerName);
         }}

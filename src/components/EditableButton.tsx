@@ -22,6 +22,7 @@ export default function EditableButton(props: IProps) {
     <input
       key={0}
       type="text"
+      className="editableInput"
       ref={refInput}
       onBlur={() => {
         // save inputted value on focus loss
@@ -45,13 +46,14 @@ export default function EditableButton(props: IProps) {
   const saveButton = (
     <button
       key={1}
+      className="plus"
       onClick={() => {
         const inputValue = refInput.current.value;
         endEdit(inputValue); // save inputted value
       }}
     >
       {" "}
-      Přidat
+      +
     </button>
   );
 
