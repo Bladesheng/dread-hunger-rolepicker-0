@@ -10,5 +10,5 @@ export default function Counter(props: IProps) {
     // 8 is maximum
     (props.playerCount === 8 && " full") || (props.playerCount > 8 && " overflow") || "";
 
-  return <h1 className={"counter" + statusClass}>{props.playerCount + "/8 hráčů"}</h1>;
+  return <h1 className={"counter" + statusClass}>{props.playerCount + "/8 Hráčů"}</h1>;
 }

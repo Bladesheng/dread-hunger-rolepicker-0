@@ -132,10 +132,10 @@ export default function PlayerPicker() {
         <Counter playerCount={selectedPlayers.length}></Counter>
 
         <section className="lists">
-          <h1>Vybraní</h1>
+          <h2>Vybraní</h2>
           <ol className="selectedPlayers">{selectedPlayersElements}</ol>
 
-          <h1>Ostatní</h1>
+          <h2>Ostatní</h2>
           <ol className="unselectedPlayers">{unselectedPlayersElements}</ol>
         </section>
 

@@ -89,6 +89,8 @@ main {
 
     h1.counter {
       place-self: center;
+      font-size: 2rem;
+      font-weight: 700;
     }
     .full {
       color: $color-green-dark;
@@ -99,8 +101,13 @@ main {
 
     section.lists {
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
 
-      h1 {
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 500;
       }
 
       // player buttons
@@ -219,6 +226,7 @@ main {
     grid-column: 1 / 3;
 
     font-size: 2rem;
+    font-weight: 700;
   }
   ol {
     grid-column: 1 / 3;
@@ -267,17 +275,21 @@ footer {
   main {
     grid-template-columns: 1fr;
     overflow-y: visible;
-  }
 
-  .shuffler {
-    grid-template-rows: min-content auto min-content 1.5rem;
-
-    h1 {
-      font-size: 1.5rem;
+    .picker {
+      gap: 1rem;
     }
-    ol {
-      li {
-        font-size: 1.1rem;
+
+    .shuffler {
+      grid-template-rows: min-content auto min-content 1.5rem;
+
+      h1 {
+        font-size: 1.5rem;
+      }
+      ol {
+        li {
+          font-size: 1.1rem;
+        }
       }
     }
   }
