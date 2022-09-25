@@ -24,7 +24,7 @@ export default function PlayersShuffled(props: IProps) {
 
   const roles = [
     "Captain ⚓",
-    "Chaplain ✝",
+    "Chaplain ✝️",
     "Cook 🥩",
     "Doctor 💉",
     "Engineer 🔧",
@@ -68,11 +68,11 @@ export default function PlayersShuffled(props: IProps) {
   function copyToClipboard(playersShuffled: string[]) {
     setCopiedVisible(true); // start timer
 
-    const clipboardText: string[] = [];
+    const clipboardText = constructClipboardText(playersShuffled);
 
-    playersShuffled.forEach((playerName, index) => {
-      clipboardText.push(`${playerName}......${roles[index]}`);
-    });
+    // monospaced font for discord
+    clipboardText.unshift("```");
+    clipboardText.push("```");
 
     navigator.clipboard.writeText(clipboardText.join("\n")).then(
       () => {
@@ -84,26 +84,56 @@ export default function PlayersShuffled(props: IProps) {
     );
   }
 
-  const shuffledPlayersElements = shuffledPlayers.map((playerName, index) => {
+  const clipboardText = constructClipboardText(shuffledPlayers);
+
+  const shuffledPlayersElements = clipboardText.map((line, index) => {
     return (
       <div className="player" key={index}>
-        {playerName}......{roles[index]}
+        {line}
       </div>
     );
   });
 
+  // create padded text output
+  function constructClipboardText(playersShuffled: string[]) {
+    const clipboardText: string[] = [];
+
+    const longestPlayerAndRole = Math.max(
+      ...playersShuffled.map((player, index) => player.length + roles[index].length)
+    );
+
+    playersShuffled.forEach((playerName, index) => {
+      const playerRole = roles[index];
+
+      let dots = longestPlayerAndRole - playerName.length - playerRole.length + 3;
+
+      // override for captain
+      if (index === 0) {
+        // less dots because of weird monospace spacing of emojis
+        dots--;
+      }
+
+      clipboardText.push(playerName + ".".repeat(dots) + playerRole);
+    });
+
+    return clipboardText;
+  }
+
   return (
-    <div className="playersShuffled">
+    <section className="shuffle">
       <button
         className="shuffle"
         onClick={() => {
-          shufflePlayers();
+          // 8 is max ammount of players
+          if (props.selectedPlayers.length <= 8) {
+            shufflePlayers();
+          }
         }}
       >
         Vylosovat
       </button>
       <h2>Přidělené role</h2>
-      <ul>{shuffledPlayersElements}</ul>
+      <ul className="shuffledPlayers">{shuffledPlayersElements}</ul>
       <button
         className="copy"
         onClick={() => {
@@ -114,6 +144,6 @@ export default function PlayersShuffled(props: IProps) {
       </button>
 
       {copiedVisible && <div className="popup">Zkopírováno</div>}
-    </div>
+    </section>
   );
 }
