@@ -7,9 +7,10 @@ type IProps = {
   togglePlayer: (playerName: string) => void;
 };
 
+// clickable player button, you can toggle selected/unselected status or delete the player completely
 export default function Player(props: IProps) {
   return (
-    <div className={"player " + (props.selected ? "selected" : "")}>
+    <li className={"player " + (props.selected ? "selected" : "")}>
       <button
         className="toggle"
         onClick={() => {
@@ -27,6 +28,6 @@ export default function Player(props: IProps) {
       >
         X
       </button>
-    </div>
+    </li>
   );
 }

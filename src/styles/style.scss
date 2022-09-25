@@ -61,7 +61,11 @@ main {
     color: orangered;
   }
 
-  ul.shuffledPlayers {
+  ol {
+    list-style-type: none;
+  }
+
+  ol.shuffledPlayers {
     font-family: $font-stack-mono;
   }
 }

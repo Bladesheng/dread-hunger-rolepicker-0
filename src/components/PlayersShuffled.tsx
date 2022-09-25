@@ -4,6 +4,7 @@ type IProps = {
   selectedPlayers: string[];
 };
 
+// shuffles selected players, displays shuffled output, copies output to clipboard
 export default function PlayersShuffled(props: IProps) {
   const [shuffledPlayers, setShuffledPlayers] = useState<string[]>([]);
   const [copiedVisible, setCopiedVisible] = useState(false);
@@ -33,14 +34,13 @@ export default function PlayersShuffled(props: IProps) {
     "Navigator 🔭"
   ];
 
+  // shuffle players and automatically copy the output to clipboard
   function shufflePlayers() {
     const selectedPlayersCopy = [...props.selectedPlayers];
 
     shuffleArray(selectedPlayersCopy);
 
     setShuffledPlayers(selectedPlayersCopy);
-
-    console.log("Shuffled players: ", selectedPlayersCopy);
 
     copyToClipboard(selectedPlayersCopy);
   }
@@ -64,7 +64,6 @@ export default function PlayersShuffled(props: IProps) {
     return array;
   }
 
-  // constructs clipboard text from shuffled players
   function copyToClipboard(playersShuffled: string[]) {
     setCopiedVisible(true); // start timer
 
@@ -74,9 +73,10 @@ export default function PlayersShuffled(props: IProps) {
     clipboardText.unshift("```");
     clipboardText.push("```");
 
+    // save each playerName+dots+role to new line
     navigator.clipboard.writeText(clipboardText.join("\n")).then(
       () => {
-        console.log("Copied to clipboard");
+        // succesfull copy
       },
       (error) => {
         console.log("Clipboard error: ", error);
@@ -84,20 +84,20 @@ export default function PlayersShuffled(props: IProps) {
     );
   }
 
+  // show shuffled players and their roles as html list
   const clipboardText = constructClipboardText(shuffledPlayers);
-
   const shuffledPlayersElements = clipboardText.map((line, index) => {
     return (
-      <div className="player" key={index}>
+      <li className="player" key={index}>
         {line}
-      </div>
+      </li>
     );
   });
 
-  // create padded text output
   function constructClipboardText(playersShuffled: string[]) {
     const clipboardText: string[] = [];
 
+    // create padded text output, so every line has the same number of characters
     const longestPlayerAndRole = Math.max(
       ...playersShuffled.map((player, index) => player.length + roles[index].length)
     );
@@ -121,6 +121,9 @@ export default function PlayersShuffled(props: IProps) {
 
   return (
     <section className="shuffle">
+      <h1>Přidělené role</h1>
+      <ol className="shuffledPlayers">{shuffledPlayersElements}</ol>
+
       <button
         className="shuffle"
         onClick={() => {
@@ -132,8 +135,7 @@ export default function PlayersShuffled(props: IProps) {
       >
         Vylosovat
       </button>
-      <h2>Přidělené role</h2>
-      <ul className="shuffledPlayers">{shuffledPlayersElements}</ul>
+
       <button
         className="copy"
         onClick={() => {

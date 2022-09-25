@@ -4,7 +4,7 @@ import PlayersShuffled from "./PlayersShuffled";
 import Player from "./Player";
 import { Storage } from "./Storage";
 
-Storage.init();
+Storage.init(); // load default or saved players from storage first
 
 export default function PlayerPicker() {
   const [selectedPlayers, setSelectedPlayers] = useState<string[]>(Storage.selectedPlayers);
@@ -30,8 +30,6 @@ export default function PlayerPicker() {
     unselectedPlayersCopy.push(playerName);
 
     setUnselectedPlayers(unselectedPlayersCopy);
-
-    console.log("Added player: ", playerName);
   }
 
   function removePlayer(playerName: string) {
@@ -48,8 +46,6 @@ export default function PlayerPicker() {
 
       setSelectedPlayers(selectedPlayersFiltered);
     }
-
-    console.log("Removed player: ", playerName);
   }
 
   function togglePlayer(playerName: string) {
@@ -65,8 +61,6 @@ export default function PlayerPicker() {
       const unselectedPlayersCopy = [...unselectedPlayers];
       unselectedPlayersCopy.unshift(playerName); // add player to begining, so frequent players are at the top!
       setUnselectedPlayers(unselectedPlayersCopy);
-
-      console.log("Deselected player: ", playerName);
     }
     // if player is not selected yet, select him
     else {
@@ -80,8 +74,6 @@ export default function PlayerPicker() {
       const selectedPlayersCopy = [...selectedPlayers];
       selectedPlayersCopy.push(playerName); // add player to end, so frequent players are at the top!
       setSelectedPlayers(selectedPlayersCopy);
-
-      console.log("Selected player: ", playerName);
     }
   }
 
@@ -135,13 +127,23 @@ export default function PlayerPicker() {
 
   return (
     <main className="playerPicker">
-      <div
-        className={"counter " + (selectedPlayers.length > 8 ? "overflow" : "")}
-      >{`${selectedPlayers.length}/8 hráčů`}</div>
-      <ul className="selectedPlayers">{selectedPlayersElements}</ul>
-      <ul className="unselectedPlayers">{unselectedPlayersElements}</ul>
+      <section className="picker">
+        <h1
+          className={"counter " + (selectedPlayers.length > 8 ? "overflow" : "")}
+        >{`${selectedPlayers.length}/8 hráčů`}</h1>
 
-      <button onClick={resetSelected}>Reset</button>
+        <section className="lists">
+          <h1>Vybraní</h1>
+          <ol className="selectedPlayers">{selectedPlayersElements}</ol>
+
+          <h1>Ostatní</h1>
+          <ol className="unselectedPlayers">{unselectedPlayersElements}</ol>
+        </section>
+
+        <button className="reset" onClick={resetSelected}>
+          Reset
+        </button>
+      </section>
 
       <PlayersShuffled selectedPlayers={selectedPlayers}></PlayersShuffled>
     </main>
