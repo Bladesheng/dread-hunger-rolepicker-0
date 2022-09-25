@@ -3,6 +3,7 @@ import EditableButton from "./EditableButton";
 import PlayersShuffled from "./PlayersShuffled";
 import Player from "./Player";
 import { Storage } from "./Storage";
+import Counter from "./Counter";
 
 Storage.init(); // load default or saved players from storage first
 
@@ -128,9 +129,7 @@ export default function PlayerPicker() {
   return (
     <main className="playerPicker">
       <section className="picker">
-        <h1
-          className={"counter " + (selectedPlayers.length > 8 ? "overflow" : "")}
-        >{`${selectedPlayers.length}/8 hráčů`}</h1>
+        <Counter playerCount={selectedPlayers.length}></Counter>
 
         <section className="lists">
           <h1>Vybraní</h1>
