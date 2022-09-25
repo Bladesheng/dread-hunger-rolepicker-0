@@ -85,6 +85,22 @@ export default function PlayerPicker() {
     }
   }
 
+  function resetSelected() {
+    const players = [...selectedPlayers];
+
+    // remove all players from selected
+    setSelectedPlayers([]);
+
+    // and add selected players to unselected
+    const unselectedPlayersCopy = [...unselectedPlayers];
+
+    players.reverse(); // reverse, so the unselected order stays the same as selected order
+    for (const playerName of players) {
+      unselectedPlayersCopy.unshift(playerName); // add players to begining
+    }
+    setUnselectedPlayers(unselectedPlayersCopy);
+  }
+
   // create clickable Player elements for all players
   const selectedPlayersElements = [] as JSX.Element[];
   const unselectedPlayersElements = [] as JSX.Element[];
@@ -124,6 +140,8 @@ export default function PlayerPicker() {
       >{`${selectedPlayers.length}/8 hráčů`}</div>
       <ul className="selectedPlayers">{selectedPlayersElements}</ul>
       <ul className="unselectedPlayers">{unselectedPlayersElements}</ul>
+
+      <button onClick={resetSelected}>Reset</button>
 
       <PlayersShuffled selectedPlayers={selectedPlayers}></PlayersShuffled>
     </main>
