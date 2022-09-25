@@ -40,6 +40,14 @@ module.exports = {
           // Compiles Sass to CSS
           "sass-loader"
         ]
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|ico)$/i,
+        type: "asset/resource",
+        generator: {
+          // put all generated assets into "dist/"
+          filename: "[name][ext]"
+        }
       }
     ]
   },
