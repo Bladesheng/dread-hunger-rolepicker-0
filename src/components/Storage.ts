@@ -11,7 +11,7 @@ export const Storage = (() => {
   // retrieve everything from local storage
   function init() {
     // default values
-    selectedPlayers = ["Mazarini"];
+    selectedPlayers = ["Mazarin1k"];
     unselectedPlayers = [
       "Rewerend",
       "Majklicek",

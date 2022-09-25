@@ -165,7 +165,7 @@ main {
 
       ol.selectedPlayers {
         display: grid;
-        grid-template-rows: 2rem 2rem;
+        grid-template-rows: 2rem 2rem 2rem;
         grid-auto-rows: 2rem;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         gap: 1rem;
