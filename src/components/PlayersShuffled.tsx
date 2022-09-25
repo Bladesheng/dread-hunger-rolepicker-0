@@ -145,7 +145,7 @@ export default function PlayersShuffled(props: IProps) {
         Zkopírovat
       </button>
 
-      {copiedVisible && <div className="popup">Zkopírováno</div>}
+      {copiedVisible && <div className="popup">Zkopírováno!</div>}
     </section>
   );
 }

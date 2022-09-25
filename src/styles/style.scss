@@ -219,11 +219,10 @@ main {
 }
 
 .shuffler {
-  justify-self: center;
-
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: min-content 20rem min-content 1.5rem;
+  column-gap: 2rem;
 
   justify-items: center;
   place-items: center;
@@ -244,8 +243,15 @@ main {
     }
   }
 
-  button {
-    font-size: 1.5rem;
+  button.shuffle {
+    justify-self: end;
+  }
+  button.copy {
+    justify-self: start;
+  }
+  .popup {
+    justify-self: start;
+    padding-left: 0.5rem;
   }
 
   button.shuffle,
