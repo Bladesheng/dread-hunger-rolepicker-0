@@ -120,7 +120,7 @@ export default function PlayersShuffled(props: IProps) {
   }
 
   return (
-    <section className="shuffle">
+    <section className="shuffler">
       <h1>Přidělené role</h1>
       <ol className="shuffledPlayers">{shuffledPlayersElements}</ol>
 
