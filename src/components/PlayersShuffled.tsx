@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type IProps = {
   selectedPlayers: string[];
@@ -6,6 +6,21 @@ type IProps = {
 
 export default function PlayersShuffled(props: IProps) {
   const [shuffledPlayers, setShuffledPlayers] = useState<string[]>([]);
+  const [copiedVisible, setCopiedVisible] = useState(false);
+
+  // hide copied popup after 4 seconds
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (copiedVisible === true) {
+      timeout = setTimeout(() => {
+        setCopiedVisible(false);
+      }, 4000);
+    }
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [copiedVisible]);
 
   const roles = [
     "Captain ⚓",
@@ -26,6 +41,8 @@ export default function PlayersShuffled(props: IProps) {
     setShuffledPlayers(selectedPlayersCopy);
 
     console.log("Shuffled players: ", selectedPlayersCopy);
+
+    copyToClipboard(selectedPlayersCopy);
   }
 
   // Fisher-Yates (Knuth) shuffle
@@ -47,9 +64,16 @@ export default function PlayersShuffled(props: IProps) {
     return array;
   }
 
-  const clipboardText: string[] = [];
+  // constructs clipboard text from shuffled players
+  function copyToClipboard(playersShuffled: string[]) {
+    setCopiedVisible(true); // start timer
 
-  function copyToClipboard() {
+    const clipboardText: string[] = [];
+
+    playersShuffled.forEach((playerName, index) => {
+      clipboardText.push(`${playerName}......${roles[index]}`);
+    });
+
     navigator.clipboard.writeText(clipboardText.join("\n")).then(
       () => {
         console.log("Copied to clipboard");
@@ -61,7 +85,6 @@ export default function PlayersShuffled(props: IProps) {
   }
 
   const shuffledPlayersElements = shuffledPlayers.map((playerName, index) => {
-    clipboardText.push(`${playerName}......${roles[index]}`);
     return (
       <div className="player" key={index}>
         {playerName}......{roles[index]}
@@ -69,21 +92,28 @@ export default function PlayersShuffled(props: IProps) {
     );
   });
 
-  // prevents erasing clipboard on page load
-  if (shuffledPlayersElements.length > 0) {
-    copyToClipboard(); // copy text to clipboard after shuffle
-  }
-
   return (
     <div className="playersShuffled">
-      <button className="shuffle" onClick={shufflePlayers}>
+      <button
+        className="shuffle"
+        onClick={() => {
+          shufflePlayers();
+        }}
+      >
         Vylosovat
       </button>
       <h2>Přidělené role</h2>
       <ul>{shuffledPlayersElements}</ul>
-      <button className="copy" onClick={copyToClipboard}>
+      <button
+        className="copy"
+        onClick={() => {
+          copyToClipboard(shuffledPlayers);
+        }}
+      >
         Zkopírovat
       </button>
+
+      {copiedVisible && <div className="popup">Zkopírováno</div>}
     </div>
   );
 }
