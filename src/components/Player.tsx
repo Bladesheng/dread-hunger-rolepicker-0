@@ -21,7 +21,7 @@ export default function Player(props: IProps) {
       </button>
 
       <button
-        className="remove"
+        className={"remove" + (props.selected ? " selected" : "")}
         onClick={() => {
           props.removePlayer(props.playerName);
         }}
