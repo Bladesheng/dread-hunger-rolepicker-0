@@ -38,7 +38,13 @@ export default function PlayersShuffled(props: IProps) {
   function shufflePlayers() {
     const selectedPlayersCopy = [...props.selectedPlayers];
 
-    shuffleArray(selectedPlayersCopy);
+    // bad luck protection - nobody gets the same role twice
+    let noRepeats = false;
+    while (noRepeats === false) {
+      shuffleArray(selectedPlayersCopy);
+
+      noRepeats = checkIfNoRepeats(shuffledPlayers, selectedPlayersCopy);
+    }
 
     setShuffledPlayers(selectedPlayersCopy);
 
@@ -62,6 +68,21 @@ export default function PlayersShuffled(props: IProps) {
     }
 
     return array;
+  }
+
+  // return true if there is no repeat, return false is there is repeat
+  // repeat == someone's name is at the same index in both arrays
+  // which will result in them getting the same role twice (same as last game)
+  function checkIfNoRepeats(arrayOriginal: string[], arrayNew: string[]) {
+    let noRepeats = true;
+
+    arrayOriginal.forEach((nameOriginal, indexOriginal) => {
+      if (arrayNew[indexOriginal] === nameOriginal) {
+        noRepeats = false;
+      }
+    });
+
+    return noRepeats;
   }
 
   function copyToClipboard(playersShuffled: string[]) {
