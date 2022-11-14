@@ -5,6 +5,7 @@ import Player from "./Player";
 import { Storage } from "./Storage";
 import Counter from "./Counter";
 import RandomMap from "./RandomMap";
+import RandomSpells from "./RandomSpells";
 
 Storage.init(); // load default or saved players from storage first
 
@@ -146,6 +147,8 @@ export default function PlayerPicker() {
       </section>
 
       <PlayersShuffled selectedPlayers={selectedPlayers}></PlayersShuffled>
+
+      <RandomSpells></RandomSpells>
 
       <RandomMap></RandomMap>
     </main>

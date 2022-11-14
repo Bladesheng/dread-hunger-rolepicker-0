@@ -6,7 +6,12 @@ export default function RandomMap() {
   const maps = ["Summit", "Approach", "Expanse"];
 
   function rollMap() {
-    const randomIndex = Math.floor(Math.random() * maps.length);
+    let randomIndex: number;
+
+    do {
+      randomIndex = Math.floor(Math.random() * maps.length);
+    } while (maps[randomIndex] === randomMap); // prevent same roll twice in a row
+
     setRandomMap(maps[randomIndex]);
   }
 
